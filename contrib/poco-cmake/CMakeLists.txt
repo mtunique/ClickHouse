@@ -1,5 +1,9 @@
 set (LIBRARY_DIR ${ClickHouse_SOURCE_DIR}/contrib/poco)
 
+execute_process(COMMAND ${GIT_EXECUTABLE} apply
+        ${ClickHouse_SOURCE_DIR}/contrib/poco-cmake/patch.diff
+        WORKING_DIRECTORY ${ClickHouse_SOURCE_DIR}/contrib/poco/)
+
 add_subdirectory (Crypto)
 add_subdirectory (Data)
 add_subdirectory (Data/ODBC)

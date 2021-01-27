@@ -2,6 +2,14 @@
 set(ROCKSDB_SOURCE_DIR "${ClickHouse_SOURCE_DIR}/contrib/rocksdb")
 list(APPEND CMAKE_MODULE_PATH "${ROCKSDB_SOURCE_DIR}/cmake/modules/")
 
+execute_process(COMMAND ${GIT_EXECUTABLE} apply
+        ${ClickHouse_SOURCE_DIR}/contrib/rocksdb-cmake/patch.diff
+        WORKING_DIRECTORY ${ClickHouse_SOURCE_DIR}/contrib/rocksdb/)
+
+execute_process(COMMAND ${GIT_EXECUTABLE} apply
+        ${ClickHouse_SOURCE_DIR}/contrib/rocksdb-cmake/patch-zlib.diff
+        WORKING_DIRECTORY ${ClickHouse_SOURCE_DIR}/contrib/zlib-ng/)
+
 if (SANITIZE STREQUAL "undefined")
     set(WITH_UBSAN ON)
 elseif (SANITIZE STREQUAL "address")
@@ -611,10 +619,10 @@ if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64")
     ${ROCKSDB_SOURCE_DIR}/util/crc32c_ppc_asm.S)
 endif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(powerpc|ppc)64")
 
-if(HAS_ARMV8_CRC)
+#if(HAS_ARMV8_CRC)
   list(APPEND SOURCES
     ${ROCKSDB_SOURCE_DIR}/util/crc32c_arm64.cc)
-endif(HAS_ARMV8_CRC)
+#endif(HAS_ARMV8_CRC)
 
 if(WIN32)
   list(APPEND SOURCES

@@ -1,5 +1,9 @@
 option (USE_INTERNAL_BOOST_LIBRARY "Use internal Boost library" ${NOT_UNBUNDLED})
 
+execute_process(COMMAND ${GIT_EXECUTABLE} apply
+        ${ClickHouse_SOURCE_DIR}/contrib/boost-cmake/patch.diff
+        WORKING_DIRECTORY ${ClickHouse_SOURCE_DIR}/contrib/boost/)
+
 if (NOT USE_INTERNAL_BOOST_LIBRARY)
     # 1.70 like in contrib/boost
     # 1.71 on CI
